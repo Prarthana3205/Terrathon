@@ -23,9 +23,10 @@ const Header = () => {
       <p style={{fontSize:'5vh'}}>Welcome to an initiative to protect lakes in an efficient and better way</p>
     </div>
       <div>
-        <table>
-          
-        </table>
+       <p style={{fontSize:'50px',textAlign:'center',fontFamily:'sans-serif'}}> Welcome to LakeVigil! Your one stop solution to knowing everything about your neighbourhood lakes,and how you can help them!</p>
+      </div>
+      <div>
+        <p style={{fontSize:'35px',textAlign:'center',margin:'30px'}}>Please pinpoint your location on the map, to search for nearby lakes.</p>
       </div>
     
     </>
