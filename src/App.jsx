@@ -10,8 +10,7 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.post('/api/data', { latitude: 123, longitude: 456 }); // Replace 123 and 456 with actual latitude and longitude values
-        setData(response.data);
+        const response = await axios.post('https:/localhost:5000/api/data'); 
       } catch (error) {
         console.error('Error fetching data:', error);
       }

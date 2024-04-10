@@ -1,12 +1,14 @@
 # app.py
 from flask import Flask, request, jsonify
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
 CORS(app)  
-CORS(app, origins='http://localhost:5173/')
+app.config['CORS_ALLOW_ORIGINS'] = '*'
 
-@app.route('/api/data', methods=['POST'])
+
+@app.route('/api/data', methods=['POST','GET'])
+@cross_origin()
 def receive_data():
     if request.method == 'POST':
         data = request.json

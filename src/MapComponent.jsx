@@ -18,7 +18,7 @@ const MapComponent = () => {
 
   const handleGetLocation = () => {
     if (clickedLocation) {
-      fetch('/api/data', {
+      fetch('http://localhost:5000/api/data', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
