@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import axiosInstance from './axios_instance';
 import Header from './Header';
-
+import MapComponent from './MapComponent';
 
 function App() {
   const [data, setData] = useState(null);
@@ -20,6 +20,7 @@ function App() {
   return (
     <div className="App">
        <Header />
+       < MapComponent />
        
       <h1 >React Frontend</h1>
      
