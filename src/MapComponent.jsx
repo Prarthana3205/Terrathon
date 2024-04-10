@@ -1,7 +1,7 @@
 // MapComponent.js
 import React, { useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css'; // Import Leaflet CSS
+import 'leaflet/dist/leaflet.css'; // try google maps api next
 
 const MapComponent = () => {
   const [clickedLocation, setClickedLocation] = useState(null);
@@ -18,11 +18,22 @@ const MapComponent = () => {
 
   const handleGetLocation = () => {
     if (clickedLocation) {
-      // Here, you can pass the latitude and longitude to another variable or function
-      const { latitude, longitude } = clickedLocation;
-      console.log('Latitude:', latitude);
-      console.log('Longitude:', longitude);
-      // You can also perform any other actions with the latitude and longitude
+      fetch('/api/data', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(clickedLocation)
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        alert(data.message);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred while saving location');
+      });
     } else {
       alert('Please click on the map to set a location.');
     }
@@ -38,13 +49,13 @@ const MapComponent = () => {
       <div>
         {clickedLocation && (
           <div>
-            <p>Your current latitude: {clickedLocation.latitude.toFixed(6)}</p>
-            <p>Your current longitude: {clickedLocation.longitude.toFixed(6)}</p>
+            <p style={{fontSize:'25px'}}>Your current latitude: {clickedLocation.latitude.toFixed(6)}</p>
+            <p style={{fontSize:'25px'}}>Your current longitude: {clickedLocation.longitude.toFixed(6)}</p>
           </div>
         )}
         <button style={{
           color:'white',height:'40px',width:'90px',display:'flex',justifyItems:'center',alignItems:'center',backgroundColor:'#3C3CF7',margin:'30px'
-      }}onClick={handleGetLocation}>Get Location</button>
+      }}onClick={handleGetLocation}>Get Nearby Lakes</button>
       </div>
     </div>
   );
