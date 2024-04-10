@@ -1,12 +1,24 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import axiosInstance from './axios_instance';
+import Header from './Header';
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    axiosInstance.get('/api/data')
+      .then(response => {
+        setData(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
 
   return (
+<<<<<<< HEAD
     <>
       <div>
         <a href="https://vitejs.dev" target="_blank">
@@ -30,6 +42,16 @@ function App() {
       </p>
     </>
   )
+=======
+    <div className="App">
+       <Header />
+       
+      <h1>React Frontend</h1>
+     
+      {data && <p>{data.message}</p>}
+    </div>
+  );
+>>>>>>> refs/remotes/origin/main
 }
 
-export default App
+export default App;
