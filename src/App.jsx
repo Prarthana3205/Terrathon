@@ -20,6 +20,11 @@ import Sodium from './Sodium';
 import TDS from './TDS';
 import Phosphate from './Phosphate';
 import Chromium from './Chromium';
+import Boron from '../Boron';
+import Cadmium from './Cadmium';
+import Carbonate from './Carbonate';
+import Copper from './Copper';
+import Flouride from './Fluorine';
 function App() {
   const [data, setData] = useState(null);
 
@@ -59,6 +64,11 @@ function App() {
       <TDS />
       <Phosphate />
       <Chromium />
+      <Boron />
+      <Cadmium />
+      <Carbonate />
+      <Copper />
+      <Flouride />
       {data && <p>{data.message}</p>}
     </div>
   );
