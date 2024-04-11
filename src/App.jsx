@@ -11,7 +11,15 @@ import Iron from './iron';
 import Nitrate from './Nitrates';
 import Turbidity from './Turbidity';
 import Bicarbonate from './Bicarbonate';
-
+import Chloride from './chlorides';
+import Zinc from './Zinc';
+import COD from './COD';
+import Nickel from './Nickel';
+import Hardness from './Hardness';
+import Sodium from './Sodium';
+import TDS from './TDS';
+import Phosphate from './Phosphate';
+import Chromium from './Chromium';
 function App() {
   const [data, setData] = useState(null);
 
@@ -42,6 +50,15 @@ function App() {
       <Nitrate />
       <Turbidity />
       <Bicarbonate />
+      <Chloride />
+      <Zinc />
+      <COD />
+      <Nickel />
+      <Hardness />
+      <Sodium />
+      <TDS />
+      <Phosphate />
+      <Chromium />
       {data && <p>{data.message}</p>}
     </div>
   );
