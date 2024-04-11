@@ -1,10 +1,11 @@
-// MapComponent.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css'; // try google maps api next
+import axiosInstance from './axios_instance';
+import 'leaflet/dist/leaflet.css';
 
 const MapComponent = () => {
   const [clickedLocation, setClickedLocation] = useState(null);
+  const [address, setAddress] = useState(null);
 
   const GetUserLocation = () => {
     const map = useMapEvents({
@@ -16,27 +17,36 @@ const MapComponent = () => {
     return null;
   };
 
-  const handleGetLocation = () => {
-    if (clickedLocation) {
-      fetch('http://localhost:5000/api/data', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(clickedLocation)
-      })
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-        alert(data.message);
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        alert('An error occurred while saving location');
-      });
-    } else {
-      alert('Please click on the map to set a location.');
+  const fetchData = async () => {
+    try {
+      if (clickedLocation) {
+        const response = await axiosInstance.post('http:/localhost:5000/api/data', clickedLocation);
+        const { latitude, longitude } = clickedLocation;
+
+        // Fetch address using reverse geocoding from OpenStreetMap Nominatim API
+        const addressResponse = await axiosInstance.get(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`);
+        const address = addressResponse.data.display_name;
+
+        setAddress(address);
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
     }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [clickedLocation]);
+
+  const handleGetLocation = () => {
+    if (!clickedLocation) {
+      alert('Please click on the map to set a location.');
+      return;
+    }
+
+    // Perform any action you need after getting the location
+    console.log('Clicked Location:', clickedLocation);
+    console.log('Address:', address);
   };
 
   return (
@@ -49,13 +59,12 @@ const MapComponent = () => {
       <div>
         {clickedLocation && (
           <div>
-            <p style={{fontSize:'25px'}}>Your current latitude: {clickedLocation.latitude.toFixed(6)}</p>
-            <p style={{fontSize:'25px'}}>Your current longitude: {clickedLocation.longitude.toFixed(6)}</p>
+            <p style={{ fontSize: '25px' }}>Your current latitude: {clickedLocation.latitude.toFixed(6)}</p>
+            <p style={{ fontSize: '25px' }}>Your current longitude: {clickedLocation.longitude.toFixed(6)}</p>
+            {address && <p style={{ fontSize: '25px' }}>Address: {address}</p>}
           </div>
         )}
-        <button style={{
-          color:'white',height:'40px',width:'90px',display:'flex',justifyItems:'center',alignItems:'center',backgroundColor:'#3C3CF7',margin:'30px'
-      }}onClick={handleGetLocation}>Get Nearby Lakes</button>
+        <button style={{ color: 'white', height: '40px', width: '90px', display: 'flex', justifyItems: 'center', alignItems: 'center', backgroundColor: '#3C3CF7', margin: '30px' }} onClick={handleGetLocation}>Get Location</button>
       </div>
     </div>
   );
