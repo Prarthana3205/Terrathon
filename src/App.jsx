@@ -42,8 +42,12 @@ function App() {
 
   return (
     <div className="App">
+      <div >
       <Header />
+      </div>
+      <div style={{margin:'30px'}}>
       <MapComponent />
+      </div>
       <h1>React Frontend</h1>
       <div>
       <PH />
